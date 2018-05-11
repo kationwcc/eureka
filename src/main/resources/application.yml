@@ -1,0 +1,33 @@
+server:
+  port: 2000
+  context-path: /
+logging:
+  file: /data/logs/eureka/eureka.log  # 日志文件,绝对路径或相对路径
+  path: /data/logs/eureka  # 保存日志文件目录路径
+  level:
+    root: INFO
+    org.hibernate: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.type.descriptor.sql.BasicExtractor: TRACE
+    com.itmuch: DEBUG
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+    lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
+    lease-expiration-duration-in-seconds: 60   # 发呆时间，即服务续约到期时间（缺省为90s）
+    status-page-url-path: ${server.context-path}/info
+    health-check-url-path:  ${server.context-path}/health
+  client:
+    healthcheck: 
+        enabled: true 
+    register-with-eureka: true
+    fetch-registry: true
+    service-url: 
+      defaultZone: http://kation:123456@118.89.148.123/eureka
+security: 
+  basic:
+    enabled: false
+hystrix:
+  metrics:
+    polling-interval-ms: 5000
